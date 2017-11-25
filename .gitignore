@@ -1,0 +1,39 @@
+#src/main/java/com/adatafun/computing/platform/Main.java
+#src/main/java/com/adatafun/computing/platform/conf/
+src/test/
+target/
+#logs/
+.idea/
+api/
+*.iml
+*.vscode/
+webapp/
+#src/main/resources/generatorConfig.xml
+#src/main/resources/logback-test.xml
+*swagger.json
+
+*.class
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# 工具类
+guest-util/*
+
+# 数据库配置文件
+# src/main/resources/application.properties
+
+# 数据库配置文件
+ src/main/resources/log4j.properties
+
