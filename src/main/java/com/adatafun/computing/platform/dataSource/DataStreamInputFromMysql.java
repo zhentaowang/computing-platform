@@ -1,5 +1,6 @@
 package com.adatafun.computing.platform.dataSource;
 
+import com.adatafun.computing.platform.indexMap.PlatformUser;
 import com.adatafun.computing.platform.indexMap.UnionUser;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -11,11 +12,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * DataSourceInput.java
+ * DataStreamInputFromMysql.java
  * Copyright(C) 2017 杭州风数科技有限公司
  * Created by wzt on 2017/12/26.
  */
-public class DataSourceInput extends RichSourceFunction<UnionUser> {
+public class DataStreamInputFromMysql extends RichSourceFunction<PlatformUser> {
     private PreparedStatement ps;
     private Connection connection;
     private String driver;
@@ -24,7 +25,7 @@ public class DataSourceInput extends RichSourceFunction<UnionUser> {
     private String password;
     private String sql;
 
-    DataSourceInput(String driver, String url, String username, String password, String sql) {
+    public DataStreamInputFromMysql(String driver, String url, String username, String password, String sql) {
         this.driver = driver;
         this.url = url;
         this.username = username;
@@ -50,32 +51,44 @@ public class DataSourceInput extends RichSourceFunction<UnionUser> {
      * 二、DataStream调用一次run()方法用来获取数据
      */
     @Override
-    public void run(SourceContext<UnionUser> sourceContext) throws Exception {
+    public void run(SourceContext<PlatformUser> sourceContext) throws Exception {
         try {
             //4.执行查询，封装数据
             ResultSet resultSet = ps.executeQuery();
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int columnCount = resultSetMetaData.getColumnCount();
             while (resultSet.next()) {
-                UnionUser value = new UnionUser();
+                PlatformUser value = new PlatformUser();
                 Map<String, Object> map = new HashMap<>();
                 for (int i = 1; i <= columnCount; i++) {
-                    map.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+                    Object o = resultSet.getObject(i);
+                    if (o != null) {
+                        map.put(resultSetMetaData.getColumnLabel(i), o);
+                    }
                 }
-                if (map.containsKey("name")) {
-                    value.setName(map.get("name").toString());
+                if (map.containsKey("phoneNum")) {
+                    value.setPhoneNum(map.get("phoneNum").toString());
                 }
-                if (map.containsKey("sex")) {
-                    value.setSex(map.get("sex").toString());
+                if (map.containsKey("deviceNum")) {
+                    value.setDeviceNum(map.get("deviceNum").toString());
                 }
-                if (map.containsKey("phone")) {
-                    value.setPhone(map.get("phone").toString());
+                if (map.containsKey("idNum")) {
+                    value.setIdNum(map.get("idNum").toString());
                 }
-                if (map.containsKey("card")) {
-                    value.setCard(map.get("card").toString());
+                if (map.containsKey("passportNum")) {
+                    value.setPassportNum(map.get("passportNum").toString());
                 }
-                if (map.containsKey("address")) {
-                    value.setAddress(map.get("address").toString());
+                if (map.containsKey("longTengId")) {
+                    value.setLongTengId(map.get("longTengId").toString());
+                }
+                if (map.containsKey("baiYunId")) {
+                    value.setBaiYunId(map.get("baiYunId").toString());
+                }
+                if (map.containsKey("alipayId")) {
+                    value.setAlipayId(map.get("alipayId").toString());
+                }
+                if (map.containsKey("email")) {
+                    value.setEmail(map.get("email").toString());
                 }
                 sourceContext.collect(value);
             }

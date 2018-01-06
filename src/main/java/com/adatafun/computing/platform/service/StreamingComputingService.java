@@ -1,6 +1,6 @@
 package com.adatafun.computing.platform.service;
 
-import com.adatafun.computing.platform.kafka.ElasticSearchSink;
+import com.adatafun.computing.platform.kafka.ElasticSearchSinkFromKafka;
 import com.adatafun.computing.platform.kafka.MessageSplitter;
 import com.adatafun.computing.platform.kafka.MessageWaterEmitter;
 import com.alibaba.fastjson.JSONObject;
@@ -70,7 +70,7 @@ public class StreamingComputingService {
                     });
 
             keyedStream.print();
-            keyedStream.addSink(new ElasticSearchSink(request.getString("indexName"), request.getString("indexType")));
+            keyedStream.addSink(new ElasticSearchSinkFromKafka(request.getString("indexName"), request.getString("indexType")));
 //          keyedStream.writeAsText("C:\\Users\\wzt\\Desktop\\flinkResult");
             env.execute("Flink-Kafka demo");
             return "成功";

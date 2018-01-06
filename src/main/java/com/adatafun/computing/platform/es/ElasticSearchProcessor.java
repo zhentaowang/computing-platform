@@ -6,6 +6,7 @@ import io.searchbox.client.JestClient;
 import org.junit.After;
 import org.junit.Before;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -20,7 +21,7 @@ public class ElasticSearchProcessor {
     private JestUtil jestUtil;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws IOException{
 
         esFactory = new ESFactory();
         jestUtil = new JestUtil();
@@ -29,7 +30,7 @@ public class ElasticSearchProcessor {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
 
         esFactory.closeJestClient(jestClient);
 

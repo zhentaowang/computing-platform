@@ -1,18 +1,11 @@
 package com.adatafun.computing.platform.kafka;
 
-import com.adatafun.computing.platform.indexMap.Student;
 import com.adatafun.computing.platform.indexMap.UnionUser;
-import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.api.java.tuple.Tuple3;
-import org.apache.flink.api.java.tuple.Tuple5;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * MysqlSink.java

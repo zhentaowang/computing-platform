@@ -1,5 +1,6 @@
 package com.adatafun.computing.platform.service;
 
+import com.adatafun.computing.platform.indexMap.PlatformUser;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.flink.api.common.typeinfo.BasicTypeInfo;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
@@ -34,6 +35,8 @@ public class TableComputingService {
 		};
 
 		RowTypeInfo rowTypeInfo = new RowTypeInfo(fieldTypes);
+		DataSet<PlatformUser> dataSet = null;
+		dataSet.groupBy(0, 1);
 
 		JDBCInputFormat jdbcInputFormat = JDBCInputFormat.buildJDBCInputFormat()
 				.setDrivername("com.mysql.jdbc.Driver")
