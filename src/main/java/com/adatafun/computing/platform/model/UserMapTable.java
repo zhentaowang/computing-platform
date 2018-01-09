@@ -1,4 +1,4 @@
-package com.adatafun.computing.platform.indexMap;
+package com.adatafun.computing.platform.model;
 
 /**
  * UserMapTable.java

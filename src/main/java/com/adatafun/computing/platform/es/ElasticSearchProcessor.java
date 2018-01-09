@@ -1,8 +1,8 @@
 package com.adatafun.computing.platform.es;
 
 import com.adatafun.computing.platform.conf.ESFactory;
-import com.adatafun.computing.platform.indexMap.PlatformUser;
-import com.adatafun.computing.platform.utils.JestUtil;
+import com.adatafun.computing.platform.model.PlatformUser;
+import com.adatafun.computing.platform.util.JestUtil;
 import io.searchbox.client.JestClient;
 import org.junit.After;
 import org.junit.Before;

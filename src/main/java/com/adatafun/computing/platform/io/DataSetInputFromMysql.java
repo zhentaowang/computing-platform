@@ -1,12 +1,10 @@
-package com.adatafun.computing.platform.dataSource;
+package com.adatafun.computing.platform.io;
 
-import com.adatafun.computing.platform.indexMap.PlatformUser;
+import com.adatafun.computing.platform.model.PlatformUser;
+import com.adatafun.computing.platform.util.DataEncapsulationUtil;
+
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * DataSetInputFromMysql.java
@@ -59,4 +57,14 @@ public class DataSetInputFromMysql {
             ps.close();
         }
     }
+
+    public List<PlatformUser> readFromMysql() throws Exception {
+        open();
+        ResultSet resultSet1 = run();
+        DataEncapsulationUtil dataEncapsulationUtil = new DataEncapsulationUtil();
+        List<PlatformUser> userList = dataEncapsulationUtil.dataEncapsulation(resultSet1);
+        close();
+        return userList;
+    }
+
 }

@@ -1,9 +1,9 @@
 package com.adatafun.computing.platform.service;
 
-import com.adatafun.computing.platform.dataSource.DataSetInputFromMysql;
-import com.adatafun.computing.platform.dataSource.DataSetOutputToElasticSearch;
-import com.adatafun.computing.platform.indexMap.PlatformUser;
-import com.adatafun.computing.platform.utils.DataEncapsulationUtil;
+import com.adatafun.computing.platform.io.DataSetInputFromMysql;
+import com.adatafun.computing.platform.io.DataSetOutputToElasticSearch;
+import com.adatafun.computing.platform.model.PlatformUser;
+import com.adatafun.computing.platform.util.DataEncapsulationUtil;
 import org.apache.flink.api.common.functions.JoinFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
@@ -35,17 +35,10 @@ public class DataSetFromMysqlService {
         String sql2 = "select id as baiYunId, phone as phoneNum, card as idNum, updateTime, createTime from user;";
 
         DataSetInputFromMysql dataSetInput1 = new DataSetInputFromMysql(driver, url1, username1, password1, sql1);
-        dataSetInput1.open();
-        ResultSet resultSet1 = dataSetInput1.run();
-        DataEncapsulationUtil dataEncapsulationUtil = new DataEncapsulationUtil();
-        List<PlatformUser> userList1 = dataEncapsulationUtil.dataEncapsulation(resultSet1);
-        dataSetInput1.close();
+        List<PlatformUser> userList1 = dataSetInput1.readFromMysql();
 
         DataSetInputFromMysql dataSetInput2 = new DataSetInputFromMysql(driver, url2, username2, password2, sql2);
-        dataSetInput2.open();
-        ResultSet resultSet2 = dataSetInput2.run();
-        List<PlatformUser> userList2 = dataEncapsulationUtil.dataEncapsulation(resultSet2);
-        dataSetInput2.close();
+        List<PlatformUser> userList2 = dataSetInput2.readFromMysql();
 
         DataSet<PlatformUser> input1 = env.fromCollection(userList1);
         DataSet<PlatformUser> input2 = env.fromCollection(userList2);

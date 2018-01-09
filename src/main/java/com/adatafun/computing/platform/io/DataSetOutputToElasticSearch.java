@@ -1,13 +1,11 @@
-package com.adatafun.computing.platform.dataSource;
+package com.adatafun.computing.platform.io;
 
 import com.adatafun.computing.platform.es.ElasticSearchProcessor;
-import com.adatafun.computing.platform.indexMap.PlatformUser;
+import com.adatafun.computing.platform.model.PlatformUser;
 import org.apache.flink.api.common.io.OutputFormat;
 import org.apache.flink.configuration.Configuration;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * DataSetOutputToElasticSearch.java

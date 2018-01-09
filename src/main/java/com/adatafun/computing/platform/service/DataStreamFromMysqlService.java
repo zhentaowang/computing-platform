@@ -1,8 +1,8 @@
 package com.adatafun.computing.platform.service;
 
-import com.adatafun.computing.platform.dataSource.DataStreamInputFromMysql;
-import com.adatafun.computing.platform.dataSource.DataStreamOutputToElasticSearch;
-import com.adatafun.computing.platform.indexMap.PlatformUser;
+import com.adatafun.computing.platform.io.DataStreamInputFromMysql;
+import com.adatafun.computing.platform.io.DataStreamOutputToElasticSearch;
+import com.adatafun.computing.platform.model.PlatformUser;
 import org.apache.flink.api.common.functions.JoinFunction;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.streaming.api.TimeCharacteristic;

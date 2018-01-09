@@ -1,7 +1,7 @@
 package com.adatafun.computing.platform.kafka;
 
 import com.adatafun.computing.platform.es.ElasticSearchProcessor;
-import com.adatafun.computing.platform.indexMap.UserMap;
+import com.adatafun.computing.platform.model.UserMap;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 

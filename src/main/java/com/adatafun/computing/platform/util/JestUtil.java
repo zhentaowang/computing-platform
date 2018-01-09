@@ -1,4 +1,4 @@
-package com.adatafun.computing.platform.utils;
+package com.adatafun.computing.platform.util;
 
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;

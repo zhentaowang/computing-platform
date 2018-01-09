@@ -1,11 +1,8 @@
-package com.adatafun.computing.platform.dataSource;
+package com.adatafun.computing.platform.io;
 
 import com.adatafun.computing.platform.es.ElasticSearchProcessor;
-import com.adatafun.computing.platform.indexMap.PlatformUser;
+import com.adatafun.computing.platform.model.PlatformUser;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * DataStreamOutputToElasticSearch.java

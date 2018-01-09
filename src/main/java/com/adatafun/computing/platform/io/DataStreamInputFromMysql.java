@@ -1,17 +1,12 @@
-package com.adatafun.computing.platform.dataSource;
+package com.adatafun.computing.platform.io;
 
-import com.adatafun.computing.platform.indexMap.PlatformUser;
-import com.adatafun.computing.platform.indexMap.UnionUser;
-import com.adatafun.computing.platform.utils.DataEncapsulationUtil;
-import org.apache.commons.collections.map.HashedMap;
-import org.apache.flink.api.java.tuple.Tuple2;
+import com.adatafun.computing.platform.model.PlatformUser;
+import com.adatafun.computing.platform.util.DataEncapsulationUtil;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 
 import java.sql.*;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * DataStreamInputFromMysql.java

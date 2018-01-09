@@ -1,4 +1,4 @@
-package com.adatafun.computing.platform.indexMap;
+package com.adatafun.computing.platform.model;
 
 import io.searchbox.annotations.JestId;
 

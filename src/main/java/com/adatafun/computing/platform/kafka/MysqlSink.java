@@ -1,6 +1,6 @@
 package com.adatafun.computing.platform.kafka;
 
-import com.adatafun.computing.platform.indexMap.UnionUser;
+import com.adatafun.computing.platform.model.UnionUser;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 
 import java.sql.Connection;

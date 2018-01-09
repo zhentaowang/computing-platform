@@ -1,8 +1,8 @@
 package com.adatafun.computing.platform.service;
 
-import com.adatafun.computing.platform.indexMap.PlatformUserDemo;
-import com.adatafun.computing.platform.indexMap.Student;
-import com.adatafun.computing.platform.indexMap.User;
+import com.adatafun.computing.platform.model.PlatformUserDemo;
+import com.adatafun.computing.platform.model.Student;
+import com.adatafun.computing.platform.model.User;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.table.api.Table;
