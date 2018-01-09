@@ -1,7 +1,7 @@
 package com.adatafun.computing.platform.indexMap;
 
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * PlatformUser.java
@@ -18,8 +18,8 @@ public class PlatformUser {
     private String baiYunId;
     private String alipayId;
     private String email;
-    private Date updateTime;
-    private Date createTime;
+    private Timestamp updateTime;
+    private Timestamp createTime;
 
     public PlatformUser() {
     }
@@ -44,7 +44,7 @@ public class PlatformUser {
     }
 
     public PlatformUser(String phoneNum, String deviceNum, String idNum, String passportNum, String longTengId,
-                        String baiYunId, String alipayId, String email, Date updateTime, Date createTime) {
+                        String baiYunId, String alipayId, String email, Timestamp updateTime, Timestamp createTime) {
         this.phoneNum = phoneNum;
         this.deviceNum = deviceNum;
         this.idNum = idNum;
@@ -121,19 +121,35 @@ public class PlatformUser {
         this.email = email;
     }
 
-    public Date getUpdateTime() {
+    public Timestamp getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "PlatformUser{" +
+                "phoneNum='" + phoneNum + '\'' +
+                ", deviceNum='" + deviceNum + '\'' +
+                ", idNum='" + idNum + '\'' +
+                ", passportNum='" + passportNum + '\'' +
+                ", longTengId='" + longTengId + '\'' +
+                ", baiYunId='" + baiYunId + '\'' +
+                ", alipayId='" + alipayId + '\'' +
+                ", email='" + email + '\'' +
+                ", updateTime=" + updateTime +
+                ", createTime=" + createTime +
+                '}';
     }
 }

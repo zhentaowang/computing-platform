@@ -39,15 +39,8 @@ public class DataSetOutputToElasticSearch implements OutputFormat<PlatformUser> 
     @Override
     public void writeRecord(PlatformUser input) throws IOException {
 
-        Map<String, Object> param = new HashMap<>();
-        param.put("indexName", indexName);
-        param.put("typeName", indexType);
-        param.put("indexId", input.getBaiYunId());
-
         ElasticSearchProcessor elasticSearchProcessor = new ElasticSearchProcessor();
-        elasticSearchProcessor.setUp();
-        elasticSearchProcessor.insertOrUpdateDoc(param, input);
-        elasticSearchProcessor.tearDown();
+        elasticSearchProcessor.writeToES(input, indexName, indexType);
 
     }
 

@@ -23,13 +23,13 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * StreamingComputingService.java
+ * DataStreamFromKafkaService.java
  * Flink入口类，封装了对于Kafka消息的处理逻辑。本例每100毫秒统计一次结果并写入到es
  * Copyright(C) 2017 杭州风数科技有限公司
  * Created by wzt on 2017/11/25.
  */
 @Service
-public class StreamingComputingService {
+public class DataStreamFromKafkaService {
 
     public String messageStreamingComputing(final JSONObject request) {
 

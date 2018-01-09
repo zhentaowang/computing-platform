@@ -1,5 +1,7 @@
-package com.adatafun.computing.platform.dataSource;
+package com.adatafun.computing.platform.service;
 
+import com.adatafun.computing.platform.dataSource.DataStreamInputFromMysql;
+import com.adatafun.computing.platform.dataSource.DataStreamOutputToElasticSearch;
 import com.adatafun.computing.platform.indexMap.PlatformUser;
 import org.apache.flink.api.common.functions.JoinFunction;
 import org.apache.flink.api.java.functions.KeySelector;
@@ -10,25 +12,24 @@ import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindo
 import org.apache.flink.streaming.api.windowing.time.Time;
 
 /**
- * DataStreamCombination.java
+ * DataStreamFromMysqlService.java
  * Copyright(C) 2017 杭州风数科技有限公司
  * Created by wzt on 2017/12/27.
  */
-public class DataStreamCombination {
+public class DataStreamFromMysqlService {
+
     public static void main(String[] args) throws Exception {
 
-        String driver1 = "com.mysql.jdbc.Driver";
+        String driver = "com.mysql.jdbc.Driver";
+
         String url1 = "jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
         String username1 = "root";
         String password1 = "w19890528";
-        Class.forName(driver1);
         String sql1 = "select id as longTengId, mobileNo as phoneNum, cardNo as idNum from student;";
 
-        String driver2 = "com.mysql.jdbc.Driver";
         String url2 = "jdbc:mysql://localhost:3306/demo00?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
         String username2 = "root";
         String password2 = "w19890528";
-        Class.forName(driver2);
         String sql2 = "select id as baiYunId, phone as phoneNum, card as idNum from user;";
 
         //创建流执行环境
@@ -39,9 +40,9 @@ public class DataStreamCombination {
         JoinFunction<PlatformUser, PlatformUser, PlatformUser> joinFunction = (PlatformUser first, PlatformUser second) ->
          (new PlatformUser(first.getLongTengId(), first.getPhoneNum(), second.getBaiYunId(), second.getIdNum()));
 
-        DataStream<PlatformUser> students = env.addSource(new DataStreamInputFromMysql(driver1, url1, username1, password1, sql1));
-        DataStream<PlatformUser> users = env.addSource(new DataStreamInputFromMysql(driver2, url2, username2, password2, sql2));
-        DataStream<PlatformUser> ss = students.join(users).where(new NameKeySelector()).equalTo(new NameKeySelector())
+        DataStream<PlatformUser> students = env.addSource(new DataStreamInputFromMysql(driver, url1, username1, password1, sql1));
+        DataStream<PlatformUser> users = env.addSource(new DataStreamInputFromMysql(driver, url2, username2, password2, sql2));
+        DataStream<PlatformUser> result = students.join(users).where(new NameKeySelector()).equalTo(new NameKeySelector())
                 .window(TumblingEventTimeWindows.of(Time.milliseconds(windowSize)))
                 .apply(joinFunction);
 //                .apply(new JoinFunction<PlatformUser, PlatformUser, PlatformUser>() {
@@ -53,9 +54,9 @@ public class DataStreamCombination {
 //                        return new PlatformUser(first.getLongTengId(), first.getPhoneNum(), second.getBaiYunId(), second.getIdNum());
 //                    }
 //                });
-        ss.print();
-//        ss.addSink(new MysqlSink());
-        ss.addSink(new DataStreamOutputToElasticSearch("dmp-user", "dmp-user"));
+        result.print();
+//        result.addSink(new MysqlSink());
+        result.addSink(new DataStreamOutputToElasticSearch("dmp-user", "dmp-user"));
 
         //触发流执行
         env.execute();
@@ -64,7 +65,8 @@ public class DataStreamCombination {
     private static class NameKeySelector implements KeySelector<PlatformUser, String> {
         @Override
         public String getKey(PlatformUser value) {
-            return value.getAlipayId();
+            return value.getPhoneNum();
         }
     }
+
 }

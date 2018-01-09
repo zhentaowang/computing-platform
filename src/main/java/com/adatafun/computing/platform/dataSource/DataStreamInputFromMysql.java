@@ -2,6 +2,7 @@ package com.adatafun.computing.platform.dataSource;
 
 import com.adatafun.computing.platform.indexMap.PlatformUser;
 import com.adatafun.computing.platform.indexMap.UnionUser;
+import com.adatafun.computing.platform.utils.DataEncapsulationUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.configuration.Configuration;
@@ -9,6 +10,7 @@ import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 
 import java.sql.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,42 +57,10 @@ public class DataStreamInputFromMysql extends RichSourceFunction<PlatformUser> {
         try {
             //4.执行查询，封装数据
             ResultSet resultSet = ps.executeQuery();
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-            int columnCount = resultSetMetaData.getColumnCount();
-            while (resultSet.next()) {
-                PlatformUser value = new PlatformUser();
-                Map<String, Object> map = new HashMap<>();
-                for (int i = 1; i <= columnCount; i++) {
-                    Object o = resultSet.getObject(i);
-                    if (o != null) {
-                        map.put(resultSetMetaData.getColumnLabel(i), o);
-                    }
-                }
-                if (map.containsKey("phoneNum")) {
-                    value.setPhoneNum(map.get("phoneNum").toString());
-                }
-                if (map.containsKey("deviceNum")) {
-                    value.setDeviceNum(map.get("deviceNum").toString());
-                }
-                if (map.containsKey("idNum")) {
-                    value.setIdNum(map.get("idNum").toString());
-                }
-                if (map.containsKey("passportNum")) {
-                    value.setPassportNum(map.get("passportNum").toString());
-                }
-                if (map.containsKey("longTengId")) {
-                    value.setLongTengId(map.get("longTengId").toString());
-                }
-                if (map.containsKey("baiYunId")) {
-                    value.setBaiYunId(map.get("baiYunId").toString());
-                }
-                if (map.containsKey("alipayId")) {
-                    value.setAlipayId(map.get("alipayId").toString());
-                }
-                if (map.containsKey("email")) {
-                    value.setEmail(map.get("email").toString());
-                }
-                sourceContext.collect(value);
+            DataEncapsulationUtil dataEncapsulationUtil = new DataEncapsulationUtil();
+            List<PlatformUser> platformUsers = dataEncapsulationUtil.dataEncapsulation(resultSet);
+            for (PlatformUser platformUser : platformUsers) {
+                sourceContext.collect(platformUser);
             }
         } catch (Exception e) {
             e.printStackTrace();

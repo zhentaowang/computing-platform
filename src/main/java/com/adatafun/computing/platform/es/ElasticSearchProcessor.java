@@ -1,12 +1,14 @@
 package com.adatafun.computing.platform.es;
 
 import com.adatafun.computing.platform.conf.ESFactory;
+import com.adatafun.computing.platform.indexMap.PlatformUser;
 import com.adatafun.computing.platform.utils.JestUtil;
 import io.searchbox.client.JestClient;
 import org.junit.After;
 import org.junit.Before;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -40,6 +42,19 @@ public class ElasticSearchProcessor {
 
         return jestUtil.insertOrUpdateDoc(jestClient, param.get("indexId").toString(),
                 indexObject, param.get("indexName").toString(), param.get("typeName").toString());
+
+    }
+
+    public void writeToES(PlatformUser input, String indexName, String indexType) throws IOException {
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("indexName", indexName);
+        param.put("typeName", indexType);
+        param.put("indexId", input.getLongTengId());
+
+        setUp();
+        insertOrUpdateDoc(param, input);
+        tearDown();
 
     }
 

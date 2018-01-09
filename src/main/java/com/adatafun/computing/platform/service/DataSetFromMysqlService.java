@@ -3,18 +3,20 @@ package com.adatafun.computing.platform.service;
 import com.adatafun.computing.platform.dataSource.DataSetInputFromMysql;
 import com.adatafun.computing.platform.dataSource.DataSetOutputToElasticSearch;
 import com.adatafun.computing.platform.indexMap.PlatformUser;
+import com.adatafun.computing.platform.utils.DataEncapsulationUtil;
 import org.apache.flink.api.common.functions.JoinFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 /**
- * XXX.java
+ * DataSetFromMysqlService.java
  * Copyright(C) 2017 杭州风数科技有限公司
  * Created by wzt on 2017/12/29.
  */
-public class GraphComputingService {
+public class DataSetFromMysqlService {
 
 
     public static void main(String[] args) throws Exception {
@@ -34,11 +36,15 @@ public class GraphComputingService {
 
         DataSetInputFromMysql dataSetInput1 = new DataSetInputFromMysql(driver, url1, username1, password1, sql1);
         dataSetInput1.open();
-        List<PlatformUser> userList1 = dataSetInput1.run();
+        ResultSet resultSet1 = dataSetInput1.run();
+        DataEncapsulationUtil dataEncapsulationUtil = new DataEncapsulationUtil();
+        List<PlatformUser> userList1 = dataEncapsulationUtil.dataEncapsulation(resultSet1);
         dataSetInput1.close();
+
         DataSetInputFromMysql dataSetInput2 = new DataSetInputFromMysql(driver, url2, username2, password2, sql2);
         dataSetInput2.open();
-        List<PlatformUser> userList2 = dataSetInput2.run();
+        ResultSet resultSet2 = dataSetInput2.run();
+        List<PlatformUser> userList2 = dataEncapsulationUtil.dataEncapsulation(resultSet2);
         dataSetInput2.close();
 
         DataSet<PlatformUser> input1 = env.fromCollection(userList1);

@@ -27,15 +27,8 @@ public class DataStreamOutputToElasticSearch extends RichSinkFunction<PlatformUs
     @Override
     public void invoke(PlatformUser input) throws Exception {
 
-        Map<String, Object> param = new HashMap<>();
-        param.put("indexName", indexName);
-        param.put("typeName", indexType);
-        param.put("indexId", input.getAlipayId());
-
         ElasticSearchProcessor elasticSearchProcessor = new ElasticSearchProcessor();
-        elasticSearchProcessor.setUp();
-        elasticSearchProcessor.insertOrUpdateDoc(param, input);
-        elasticSearchProcessor.tearDown();
+        elasticSearchProcessor.writeToES(input, indexName, indexType);
 
     }
 

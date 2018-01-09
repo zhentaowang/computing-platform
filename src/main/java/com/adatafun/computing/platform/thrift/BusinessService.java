@@ -24,7 +24,7 @@
 
 package com.adatafun.computing.platform.thrift;
 
-import com.adatafun.computing.platform.service.StreamingComputingService;
+import com.adatafun.computing.platform.service.DataStreamFromKafkaService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wyun.thrift.server.business.IBusinessService;
@@ -39,10 +39,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class BusinessService implements IBusinessService {
 
-    private final StreamingComputingService streamingComputingService;
+    private final DataStreamFromKafkaService streamingComputingService;
 
     @Autowired
-    public BusinessService(StreamingComputingService streamingComputingService) {
+    public BusinessService(DataStreamFromKafkaService streamingComputingService) {
         this.streamingComputingService = streamingComputingService;
     }
 
