@@ -49,7 +49,12 @@ public class AesUtil {
         try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, this.keySpec, this.ivSpec);
-            return new String(cipher.doFinal(base64Decode(crypted)));
+            byte[] decode = base64Decode(crypted);
+            if (decode.length%16 == 0) {
+                return new String(cipher.doFinal(base64Decode(crypted)));
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +70,8 @@ public class AesUtil {
         String data = "340621199309201234";
         String crypted = aes.encrypt(data);
         System.out.println(crypted);
-        System.out.println(aes.decrypt("BwwA8Vbh0i7YHwOEDWj3huz8aSmyhWRp+JGyRMffpfQ="));
+        System.out.println(aes.decrypt("ewoddk3+8YqRz7mD5doosiEyINTIGEtDAMVQGVNJ8kg="));
+        System.out.println("bg/e/xzm3A97fJj0MaEERA==".length());
     }
 
     public static String base64Encode(byte[] data) {
