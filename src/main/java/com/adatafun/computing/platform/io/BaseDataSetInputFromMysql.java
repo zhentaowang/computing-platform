@@ -2,10 +2,7 @@ package com.adatafun.computing.platform.io;
 
 import com.adatafun.computing.platform.model.PlatformUser;
 import com.adatafun.computing.platform.util.DataEncapsulationUtil;
-import org.apache.flink.api.java.tuple.Tuple1;
-import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.api.java.tuple.Tuple3;
-import org.apache.flink.api.java.tuple.Tuple4;
+import org.apache.flink.api.java.tuple.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -93,6 +90,43 @@ public class BaseDataSetInputFromMysql {
         return userList;
     }
 
+    public List<Tuple2<String, String>> dataEncapsulationTuple2ByString() throws Exception {
+        open();
+        ResultSet resultSet1 = run();
+        DataEncapsulationUtil dataEncapsulationUtil = new DataEncapsulationUtil();
+        List<Tuple2<String, String>> userList = dataEncapsulationUtil.dataEncapsulationTuple2ByString(resultSet1);
+        close();
+        return userList;
+    }
+
+    public List<Tuple2<String, String>> dataEncapsulationTuple2ByAES() throws Exception {
+        open();
+        ResultSet resultSet1 = run();
+        DataEncapsulationUtil dataEncapsulationUtil = new DataEncapsulationUtil();
+        List<Tuple2<String, String>> userList = dataEncapsulationUtil.dataEncapsulationTuple2ByAES(resultSet1);
+        close();
+        return userList;
+    }
+
+    public List<Tuple2<String, String>> dataEncapsulationTuple2ByPartner() throws Exception {
+        open();
+        ResultSet resultSet1 = run();
+        DataEncapsulationUtil dataEncapsulationUtil = new DataEncapsulationUtil();
+        List<Tuple2<String, String>> userList = dataEncapsulationUtil.dataEncapsulationTuple2ByPartner(resultSet1);
+        close();
+        return userList;
+    }
+
+    public List<Tuple6<String, String, String, String, String, String>> dataEncapsulationTuple6ByString() throws Exception {
+        open();
+        ResultSet resultSet1 = run();
+        DataEncapsulationUtil dataEncapsulationUtil = new DataEncapsulationUtil();
+        List<Tuple6<String, String, String, String, String, String>> userList = dataEncapsulationUtil
+                .dataEncapsulationTuple6ByString(resultSet1);
+        close();
+        return userList;
+    }
+
     public List<Tuple3<String, String, String>> dataEncapsulationTuple3ByPartUpdate() throws Exception {
         open();
         ResultSet resultSet1 = run();
@@ -107,6 +141,15 @@ public class BaseDataSetInputFromMysql {
         ResultSet resultSet1 = run();
         DataEncapsulationUtil dataEncapsulationUtil = new DataEncapsulationUtil();
         List<Tuple4<String, String, String, String>> userList = dataEncapsulationUtil.dataEncapsulationTuple4ByPartUpdate(resultSet1);
+        close();
+        return userList;
+    }
+
+    public List<Tuple4<String, String, String, String>> dataEncapsulationTuple4ByPullInsert() throws Exception {
+        open();
+        ResultSet resultSet1 = run();
+        DataEncapsulationUtil dataEncapsulationUtil = new DataEncapsulationUtil();
+        List<Tuple4<String, String, String, String>> userList = dataEncapsulationUtil.dataEncapsulationTuple4ByPullInsert(resultSet1);
         close();
         return userList;
     }

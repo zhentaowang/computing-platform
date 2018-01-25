@@ -300,7 +300,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.adatafun.computing.platform.service.GraphComputingFromMysqlByLongTengService</mainClass>
+                            <mainClass>com.adatafun.computing.platform.service.DataSetFromMysqlByPartUpdateTravelLabel_lt</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -55,6 +55,13 @@ public class ElasticSearchProcessor {
 
     }
 
+    public boolean bulkInsertOrUpdateDoc(Map<String, Object> param, List<Map> indexObjects) {
+
+        return jestUtil.bulkInsertOrUpdateDoc(jestClient, param.get("indexId").toString(),
+                indexObjects, param.get("indexName").toString(), param.get("typeName").toString());
+
+    }
+
     private boolean deleteDoc(Map<String, Object> param) {
 
         return jestUtil.deleteDoc(jestClient, param.get("indexId").toString(),
@@ -114,7 +121,7 @@ public class ElasticSearchProcessor {
         param.put("indexName", indexName);
         param.put("typeName", indexType);
 
-        param.put("indexId", input.get("longTengId").toString());
+        param.put("indexId", input.get("longTengId").toString() + '*' + input.get("baiYunId").toString());
         setUp();
         partUpdateDoc(param, input);
         tearDown();
@@ -128,6 +135,34 @@ public class ElasticSearchProcessor {
         param.put("typeName", indexType);
 
         param.put("indexId", input.getLongTengId() + '*' + input.getBaiYunId());
+        setUp();
+        insertOrUpdateDoc(param, input);
+        tearDown();
+
+    }
+
+    public void bulkWriteToESFromMap(List<Map> input, String indexName, String indexType) throws IOException {
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("indexName", indexName);
+        param.put("typeName", indexType);
+
+        param.put("indexId", input.get(0).get("longTengId").toString() + '*' + input.get(0).get("baiYunId"));
+        setUp();
+        bulkInsertOrUpdateDoc(param, input);
+        tearDown();
+
+    }
+
+    public void writeToESFromMap(Map<String, Object> input, String indexName, String indexType) throws IOException {
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("indexName", indexName);
+        param.put("typeName", indexType);
+
+        String unionId = input.get("longTengId").toString() + '*' + input.get("baiYunId");
+        input.put("id", unionId);
+        param.put("indexId", unionId);
         setUp();
         insertOrUpdateDoc(param, input);
         tearDown();

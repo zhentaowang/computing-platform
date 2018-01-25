@@ -2,19 +2,16 @@ package com.adatafun.computing.platform.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.apache.commons.lang3.time.DateUtils.parseDate;
 
 /**
- * HolidayUtil.java
+ * DateUtil.java
  * Copyright(C) 2017 杭州风数科技有限公司
  * Created by wzt on 2018/1/19.
  */
-public class HolidayUtil {
+public class DateUtil {
 
     private static List<String> getWorkDay() { // 周末
         List<String> workDay = new ArrayList<>();
@@ -58,6 +55,79 @@ public class HolidayUtil {
         holidays.add("2017-10-06");
         holidays.add("2017-10-07");
         return holidays;
+    }
+
+    public Map<String, String> getDateInterval(int field, int amount) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//HH:24小时制，hh:12小时制
+        String minDate = simpleDateFormat.format(new Date());
+
+        System.out.println(minDate);
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(simpleDateFormat.parse(minDate));
+        String stopTime = simpleDateFormat.format(calendar.getTime());
+        calendar.add(field, amount);//正数往后推,负数往前移动
+        String startTime = simpleDateFormat.format(calendar.getTime());
+
+        Map<String, String> map = new HashMap<>();
+        map.put("startTime", startTime);
+        map.put("stopTime", stopTime);
+
+        return map;
+    }
+
+    /**
+     *
+     * @param date1 <String>
+     * @param date2 <String>
+     * @return Integer
+     */
+    public Integer getDaySpace(String date1, String date2) {
+
+        Integer result;
+
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+
+        if (date1.equals("")) {
+            return -1;
+        }
+        if (date2.equals("")) {
+            date2 = getDate(new Date());
+        }
+
+        c1.setTime(getDate(date1));
+        c2.setTime(getDate(date2));
+
+        result = c2.get(Calendar.DAY_OF_MONTH) - c1.get(Calendar.DAY_OF_MONTH);
+
+        return result;
+
+    }
+
+    /**
+     *
+     * @param date1 <String>
+     * @param date2 <String>
+     * @return Integer
+     */
+    public Integer getMinuteSpace(String date1, String date2) {
+
+        Integer result;
+
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+
+        if (date2.equals("")) {
+            date2 = getDate(new Date());
+        }
+
+        c1.setTime(getDate(date1));
+        c2.setTime(getDate(date2));
+
+        result = c2.get(Calendar.MINUTE) - c1.get(Calendar.MINUTE);
+
+        return result;
+
     }
 
     /**
@@ -191,12 +261,15 @@ public class HolidayUtil {
 
     }
 
-    public int getDateSpace(String date1, String date2)
-            throws ParseException {
+    public String setTimeZone(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return simpleDateFormat.format(date);
+    }
 
-        int result = 0;
+    public int getDateSpace(String date1, String date2) throws ParseException {
 
-        Calendar calst = Calendar.getInstance();;
+        Calendar calst = Calendar.getInstance();
         Calendar caled = Calendar.getInstance();
 
         calst.setTime(parseDate("yyyyMMdd",date1));
@@ -247,21 +320,27 @@ public class HolidayUtil {
     /**
      * @param args 入参
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // TODO Auto-generated method stub
         Date date=new Date();//取时间
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(date);
 
-        System.out.println(dateString);
+        System.out.println(date);
 
-        HolidayUtil f = new HolidayUtil();
+        DateUtil f = new DateUtil();
         Date dt = f.getDate(dateString);
-        System.out.println(f.isWorkDay(dt));
-        System.out.println(f.isHoliday(dt));
-        System.out.println(f.matchTimeSlot(dt));
-        System.out.println("非节假日出行".compareTo("节假日出行"));
+        String ddd = f.setTimeZone(date);
+        System.out.println(ddd);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        System.out.println(simpleDateFormat.parse(ddd));
+//        System.out.println(f.isWorkDay(dt));
+//        System.out.println(f.isHoliday(dt));
+//        System.out.println(f.matchTimeSlot(dt));
+//        System.out.println(f.getDaySpace(dateString, dateString));
+//        System.out.println("非节假日出行".compareTo("节假日出行"));
     }
 
 }

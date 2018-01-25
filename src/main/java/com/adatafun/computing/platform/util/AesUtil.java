@@ -9,6 +9,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * desc :aes加密工具
@@ -70,8 +72,13 @@ public class AesUtil {
         String data = "340621199309201234";
         String crypted = aes.encrypt(data);
         System.out.println(crypted);
-        System.out.println(aes.decrypt("ewoddk3+8YqRz7mD5doosiEyINTIGEtDAMVQGVNJ8kg="));
+        System.out.println(aes.decrypt("p4OKa8n6stgpo6I2f8k/3Q=="));
         System.out.println("bg/e/xzm3A97fJj0MaEERA==".length());
+        Map<String, String> map = new HashMap<>();
+        map.put("1", "00");
+        map.put("2", "00");
+        System.out.println(map);
+        System.out.println(map.toString());
     }
 
     public static String base64Encode(byte[] data) {

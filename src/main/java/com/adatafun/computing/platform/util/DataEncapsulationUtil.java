@@ -3,10 +3,7 @@ package com.adatafun.computing.platform.util;
 import com.adatafun.computing.platform.model.PlatformUser;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.flink.api.java.tuple.Tuple1;
-import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.api.java.tuple.Tuple3;
-import org.apache.flink.api.java.tuple.Tuple4;
+import org.apache.flink.api.java.tuple.*;
 import org.apache.flink.util.Collector;
 
 import java.sql.ResultSet;
@@ -170,6 +167,113 @@ public class DataEncapsulationUtil {
         }
     }
 
+    public List<Tuple2<String, String>> dataEncapsulationTuple2ByAES(ResultSet resultSet) throws Exception {
+        try {
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int columnCount = resultSetMetaData.getColumnCount();
+            List<Tuple2<String, String>> userList = new ArrayList<>();
+            AesUtil aes = new AesUtil("fengshu_20170228");
+            while (resultSet.next()) {
+                Tuple2<String, String> tuple2 = new Tuple2<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    Object columnValue = resultSet.getObject(i);
+                    if (columnValue != null) {
+                        if (i == 2) {
+                            tuple2.setField(aes.decrypt(columnValue.toString()), i-1);
+                        } else {
+                            tuple2.setField(columnValue.toString(), i-1);
+                        }
+                    } else {
+                        tuple2.setField("未知", i-1);
+                    }
+                }
+                userList.add(tuple2);
+            }
+            return userList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Tuple2<String, String>> dataEncapsulationTuple2ByPartner(ResultSet resultSet) throws Exception {
+        try {
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int columnCount = resultSetMetaData.getColumnCount();
+            List<Tuple2<String, String>> userList = new ArrayList<>();
+            while (resultSet.next()) {
+                Tuple2<String, String> tuple2 = new Tuple2<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    Object columnValue = resultSet.getObject(i);
+                    if (columnValue != null) {
+                        tuple2.setField(columnValue.toString(), i-1);
+                    } else {
+                        tuple2.setField("未知", i-1);
+                    }
+                }
+                userList.add(tuple2);
+            }
+            return userList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Tuple2<String, String>> dataEncapsulationTuple2ByString(ResultSet resultSet) throws Exception {
+        try {
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int columnCount = resultSetMetaData.getColumnCount();
+            List<Tuple2<String, String>> userList = new ArrayList<>();
+            while (resultSet.next()) {
+                Tuple2<String, String> tuple2 = new Tuple2<>();
+                tuple2.setField(resultSet.getObject(1), 0);
+                String flightId = "";
+                for (int i = 2; i <= columnCount; i++) {
+                    Object columnValue = resultSet.getObject(i);
+                    flightId += columnValue;
+                }
+                tuple2.setField(flightId, 1);
+                userList.add(tuple2);
+            }
+            return userList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Tuple6<String, String, String, String, String, String>> dataEncapsulationTuple6ByString(ResultSet resultSet)
+            throws Exception {
+        try {
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int columnCount = resultSetMetaData.getColumnCount();
+            List<Tuple6<String, String, String, String, String, String>> userList = new ArrayList<>();
+            while (resultSet.next()) {
+                Tuple6<String, String, String, String, String, String> tuple6 = new Tuple6<>();
+                for (int i = 1; i <= 5; i++) {
+                    Object columnValue = resultSet.getObject(i);
+                    if (columnValue != null) {
+                        tuple6.setField(resultSet.getObject(i).toString(), i-1);
+                    } else {
+                        tuple6.setField("未知", i-1);
+                    }
+                }
+                String flightId = "";
+                for (int i = 6; i <= columnCount; i++) {
+                    Object columnValue = resultSet.getObject(i);
+                    flightId += columnValue;
+                }
+                tuple6.setField(flightId, 5);
+                userList.add(tuple6);
+            }
+            return userList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<Tuple3<String, String, String>> dataEncapsulationTuple3ByPartUpdate(ResultSet resultSet) throws Exception {
         try {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
@@ -204,9 +308,41 @@ public class DataEncapsulationUtil {
                 for (int i = 1; i <= columnCount; i++) {
                     Object columnValue = resultSet.getObject(i);
                     if (columnValue == null) {
-                        tuple4.setField("---", i-1);
+                        tuple4.setField("未知", i-1);
                     } else {
                         tuple4.setField(columnValue.toString(), i-1);
+                    }
+                }
+                userList.add(tuple4);
+            }
+            return userList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Tuple4<String, String, String, String>> dataEncapsulationTuple4ByPullInsert(ResultSet resultSet) throws Exception {
+        try {
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int columnCount = resultSetMetaData.getColumnCount();
+            List<Tuple4<String, String, String, String>> userList = new ArrayList<>();
+            AesUtil aes = new AesUtil("fengshu_20170228");
+            while (resultSet.next()) {
+                Tuple4<String, String, String, String> tuple4 = new Tuple4<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    String columnName = resultSetMetaData.getColumnName(i);
+                    Object columnValue = resultSet.getObject(i);
+                    if (columnValue == null) {
+                        tuple4.setField("未知", i-1);
+                    } else {
+                        if (columnName.equals("client_phone") || columnName.equals("client_passport_number")
+                                || columnName.equals("client_identity_card")) {
+                            tuple4.setField(aes.decrypt(columnValue.toString()), i-1);
+                        } else {
+                            tuple4.setField(columnValue.toString(), i-1);
+                        }
+
                     }
                 }
                 userList.add(tuple4);

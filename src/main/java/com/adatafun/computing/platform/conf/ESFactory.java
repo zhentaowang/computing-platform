@@ -27,7 +27,7 @@ public class ESFactory {
 //        props.load(in);     ///加载属性列表
         JestClientFactory factory = new JestClientFactory();
         factory.setHttpClientConfig(new HttpClientConfig
-                .Builder("http://192.168.1.128:9200")
+                .Builder("http://192.168.142.57:9200")
                 .gson(new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create())
                 .connTimeout(1500)
                 .readTimeout(3000)

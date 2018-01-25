@@ -10,6 +10,7 @@ import java.sql.Timestamp;
  */
 public class PlatformUser {
 
+    private String id;
     private String phoneNum;
     private String deviceNum;
     private String idNum;
@@ -55,6 +56,14 @@ public class PlatformUser {
         this.email = email;
         this.updateTime = updateTime;
         this.createTime = createTime;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPhoneNum() {
