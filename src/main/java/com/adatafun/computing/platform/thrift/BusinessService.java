@@ -54,6 +54,8 @@ public class BusinessService implements IBusinessService {
             case "messageStreamingComputing":
                 success = streamingComputingService.messageStreamingComputing(request);
                 break;
+            case "getUserLabel":
+                success = streamingComputingService.getUserLabel(request);
             default:
                 break;
         }

@@ -4,6 +4,7 @@ import com.adatafun.computing.platform.conf.ESFactory;
 import com.adatafun.computing.platform.model.PlatformUser;
 import com.adatafun.computing.platform.util.JestUtil;
 import io.searchbox.client.JestClient;
+import io.searchbox.client.JestResult;
 import io.searchbox.core.SearchResult;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -69,6 +70,12 @@ public class ElasticSearchProcessor {
 
     }
 
+    public Map get(String indexName, String indexType, String indexId) {
+
+        return jestUtil.get(jestClient, indexName, indexType, indexId);
+
+    }
+
     private PlatformUser getPlatformUser(Map<String, Object> param) {
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -86,6 +93,13 @@ public class ElasticSearchProcessor {
         }
         return user;
 
+    }
+
+    public Map getUserLabel(String indexName, String indexType, String indexId)throws IOException {
+        setUp();
+        Map map = get(indexName, indexType, indexId);
+        tearDown();
+        return map;
     }
 
     public void writeToESForMerge(PlatformUser input1, PlatformUser input2,String indexName, String indexType) throws IOException {

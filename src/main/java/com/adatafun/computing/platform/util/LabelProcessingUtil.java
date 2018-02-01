@@ -55,7 +55,8 @@ public class LabelProcessingUtil {
         return tuple2;
     }
 
-    public Map<String, Object> weekendTravel(Tuple3<String, String, Integer> value) {
+    public Map<String, Object> weekendTravel(Tuple3<String, String, Integer> value) throws ParseException {
+        DateUtil dateUtil = new DateUtil();
         Map<String, Object> map = new HashMap<>();
         Integer count = value.getField(2);
         map.put("longTengId", value.getField(0));
@@ -79,7 +80,7 @@ public class LabelProcessingUtil {
             }
             map.put("loginNum_weekend", value.getField(2));
         }
-        map.put("updateTime", new Date());
+        map.put("updateTime", dateUtil.setTimeZone(new Date()));
         return map;
     }
 
@@ -182,6 +183,31 @@ public class LabelProcessingUtil {
 
         }
         return dataMerges;
+    }
+
+    public DataSet<Tuple2<String, String>> oftenUsedAirport(DataSet<Tuple3<String, String, Integer>> dataGroup)
+            throws Exception {
+
+        DataSet<Tuple2<String, String>> dataMerge = dataGroup.flatMap(new FlatMapFunction<Tuple3<String, String, Integer>, Tuple2<String, String>>() {
+            public void flatMap(Tuple3<String, String, Integer> value, Collector<Tuple2<String, String>> out) throws ParseException {
+                Tuple2<String, String> tuple2 = new Tuple2<>();
+                Integer count = value.f2;
+                if (count >= 6) {
+                    tuple2.setFields(value.f0, value.f1);
+                    out.collect(tuple2);
+                }
+            }
+        }).groupBy(0).reduceGroup(new GroupReduceFunction<Tuple2<String, String>, Tuple2<String, String>>() {
+            @Override
+            public void reduce(Iterable<Tuple2<String, String>> values, Collector<Tuple2<String, String>> out) throws Exception {
+                DataEncapsulationUtil dataEncapsulationUtil = new DataEncapsulationUtil();
+                dataEncapsulationUtil.doReduceGroup(values, out);
+            }
+        });
+
+        dataMerge.print();
+        System.out.println(dataMerge.count());
+        return dataMerge;
     }
 
 }

@@ -551,7 +551,7 @@ public class DataSetFromMysqlByPartUpdateTravelLabel_lt {
 
         //出行日期偏好
         DataSet<Map> dataTransfer_week;
-        //周末出行
+//        周末出行
         FlatMapFunction<Map, Tuple3<String, String, Integer>> flatMapFunction12 =
                 (Map value, Collector<Tuple3<String, String, Integer>> out) -> {
                     DateUtil dateUtil = new DateUtil();
@@ -729,7 +729,12 @@ public class DataSetFromMysqlByPartUpdateTravelLabel_lt {
         };
 
         DataSet<Map> dataTransfer1_airport = dataMerges_airport.get(1)
-                .flatMap(flatMapFunction19);
+                .flatMap(flatMapFunction19).returns(new TypeHint<Map>() {
+                    @Override
+                    public TypeInformation<Map> getTypeInfo() {
+                        return super.getTypeInfo();
+                    }
+                });
 
         dataTransfer1_airport.print();
         System.out.println(dataTransfer1_airport.count());

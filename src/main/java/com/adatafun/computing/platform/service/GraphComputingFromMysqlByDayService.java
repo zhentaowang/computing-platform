@@ -6,6 +6,7 @@ import com.adatafun.computing.platform.io.DataSetOutputToElasticSearchByDay;
 import com.adatafun.computing.platform.model.PlatformUser;
 import com.adatafun.computing.platform.util.DateUtil;
 import com.adatafun.computing.platform.util.GraphOperatorUtil;
+import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.graph.Edge;
@@ -73,9 +74,10 @@ public class GraphComputingFromMysqlByDayService {
         }
 
         platformUserList = graphOperatorUtil.vertexRemove(userListByDay_by, platformUserList);
-
-        env.fromCollection(platformUserList).output(new DataSetOutputToElasticSearchByDay("dmp-user", "dmp-user"));
-        env.execute();
+        DataSet<PlatformUser> result = env.fromCollection(platformUserList);
+        result.output(new DataSetOutputToElasticSearchByDay("dmp-user", "dmp-user"));
+        result.print();
+        System.out.println(result.count());
     }
 
 }

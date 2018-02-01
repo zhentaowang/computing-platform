@@ -15,6 +15,23 @@ import java.util.Map;
 public class JestUtil {
 
     /**
+     * Get文档
+     */
+    public Map get(JestClient jestClient, String indexName, String typeName, String id) {
+        try {
+            Get get = new Get.Builder(indexName, id).type(typeName).build();
+            JestResult result = jestClient.execute(get);
+            if (!result.isSucceeded()) {
+                throw new RuntimeException(result.getErrorMessage()+"查询文档失败!");
+            } else {
+                return result.getSourceAsObject(Map.class);
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * 插入或更新文档
      * @param indexId 索引id
      * @param indexObjects 索引文档
@@ -51,7 +68,7 @@ public class JestUtil {
 
         PartUpdateToESUtil.Builder builder = new PartUpdateToESUtil.Builder(indexObject);
         builder.id(indexId);
-        builder.refresh(true);
+        builder.refresh(true);//这里一定要设置,否则第一次建立索引查找不到数据
         PartUpdateToESUtil update = builder.index(indexName).type(indexType).build();
         try {
             JestResult result = jestClient.execute(update);

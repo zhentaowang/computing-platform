@@ -261,10 +261,15 @@ public class DateUtil {
 
     }
 
-    public String setTimeZone(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return simpleDateFormat.format(date);
+    public Date setTimeZone(Date date) throws ParseException {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR_OF_DAY, -8);//把日期往前减八个小时,矫正es时间差
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+//        String dateString = simpleDateFormat.format(date);
+//        Date result = simpleDateFormat.parse(dateString);
+        return calendar.getTime();
     }
 
     public int getDateSpace(String date1, String date2) throws ParseException {
@@ -331,11 +336,11 @@ public class DateUtil {
 
         DateUtil f = new DateUtil();
         Date dt = f.getDate(dateString);
-        String ddd = f.setTimeZone(date);
-        System.out.println(ddd);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        System.out.println(simpleDateFormat.parse(ddd));
+        Date ddd = f.setTimeZone(date);
+        System.out.println("ddd: "+ddd);
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        System.out.println(simpleDateFormat.parse(ddd));
 //        System.out.println(f.isWorkDay(dt));
 //        System.out.println(f.isHoliday(dt));
 //        System.out.println(f.matchTimeSlot(dt));

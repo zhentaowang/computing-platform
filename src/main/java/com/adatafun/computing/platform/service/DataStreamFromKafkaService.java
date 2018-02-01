@@ -1,8 +1,10 @@
 package com.adatafun.computing.platform.service;
 
+import com.adatafun.computing.platform.es.ElasticSearchProcessor;
 import com.adatafun.computing.platform.kafka.ElasticSearchSinkFromKafka;
 import com.adatafun.computing.platform.kafka.MessageSplitter;
 import com.adatafun.computing.platform.kafka.MessageWaterEmitter;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -20,7 +22,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * DataStreamFromKafkaService.java
@@ -78,6 +80,43 @@ public class DataStreamFromKafkaService {
             return "失败";
         }
 
+    }
+
+    public String getUserLabel(final JSONObject request) {
+        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            String longTengId = request.getString("longTengId") + '*';
+            String indexName = "dmp-user";
+            String indexType = "dmp-user";
+            List<Map> labelList = JSON.parseArray(request.getString("labelList"), Map.class);
+            ElasticSearchProcessor elasticSearchProcessor = new ElasticSearchProcessor();
+            Map map = elasticSearchProcessor.getUserLabel(indexName, indexType, longTengId);
+            List<String> resultLabel = new ArrayList<>();
+            for (Map label : labelList) {
+                String labelName = label.get("labelName").toString();
+                String labelValue_match = label.get("labelValue").toString();
+                if (map.containsKey(labelName)) {
+                    String labelValue_user = map.get(labelName).toString();
+                    String[] labelValue_array = labelValue_user.split(",");
+                    for (String value : labelValue_array) {
+                        if (labelValue_match.contains(value)) {
+                            resultLabel.add(value);
+                        }
+                    }
+                }
+            }
+            resultMap.put("labelList", resultLabel);
+            result.put("data", resultMap);
+            result.put("state", "200");
+            result.put("message", "操作成功");
+            return JSON.toJSONString(result);
+        } catch (Exception e) {
+            result.put("data", null);
+            result.put("state", "500");
+            result.put("message", e.getMessage());
+            return JSON.toJSONString(result);
+        }
     }
 
 }
