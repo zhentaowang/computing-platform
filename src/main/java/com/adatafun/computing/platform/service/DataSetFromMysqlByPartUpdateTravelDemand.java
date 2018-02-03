@@ -112,7 +112,8 @@ public class DataSetFromMysqlByPartUpdateTravelDemand {
                     Map<String, Object> map = new HashMap<>();
                     map.put("longTengId", value.f0);
                     map.put("baiYunId", "");
-                    map.put("travelPreference_recentDemand", value.f1);
+                    String[] array = value.f1.split(",");
+                    map.put("travelPreference_recentDemand", array);
                     if (value.f1.equals("非近期出行")) {
                         map.put("travelPreference_recentTravel", "非近期出行");
                     } else {

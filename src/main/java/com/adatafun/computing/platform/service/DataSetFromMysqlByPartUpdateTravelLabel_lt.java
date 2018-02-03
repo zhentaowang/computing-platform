@@ -202,7 +202,8 @@ public class DataSetFromMysqlByPartUpdateTravelLabel_lt {
                         map.put("longTengId", value.f0);
                         map.put("baiYunId", "");
                         map.put("updateTime", new Date());
-                        map.put("travelPreference_recentDemand", value.f1);
+                        String[] array = value.f1.split(",");
+                        map.put("travelPreference_recentDemand", array);
                         if (value.f1.equals("非近期出行")) {
                             map.put("travelPreference_recentTravel", "非近期出行");
                         } else {
@@ -313,7 +314,8 @@ public class DataSetFromMysqlByPartUpdateTravelLabel_lt {
             map.put("longTengId", value.f0);
             map.put("baiYunId", "");
             map.put("updateTime", new Date());
-            map.put("travelPreference_flightSchedule", value.f1);
+            String[] array = value.f1.split(",");
+            map.put("travelPreference_flightSchedule", array);
             out.collect(map);
         };
 
@@ -390,7 +392,8 @@ public class DataSetFromMysqlByPartUpdateTravelLabel_lt {
             map.put("longTengId", value.f0);
             map.put("baiYunId", "");
             map.put("updateTime", new Date());
-            map.put("travelPreference_flightDistance", value.f1);
+            String[] array = value.f1.split(",");
+            map.put("travelPreference_flightDistance", array);
             out.collect(map);
         };
 
@@ -465,7 +468,8 @@ public class DataSetFromMysqlByPartUpdateTravelLabel_lt {
             map.put("longTengId", value.f0);
             map.put("baiYunId", "");
             map.put("updateTime", new Date());
-            map.put("travelPreference_flightSegment", value.f1);
+            String[] array = value.f1.split(",");
+            map.put("travelPreference_flightSegment", array);
             out.collect(map);
         };
 
@@ -704,7 +708,8 @@ public class DataSetFromMysqlByPartUpdateTravelLabel_lt {
             map.put("longTengId", value.f0);
             map.put("baiYunId", "");
             map.put("updateTime", new Date());
-            map.put("travelPreference_departAirport", value.f1);
+            String[] array = value.f1.split(",");
+            map.put("travelPreference_departAirport", array);
             out.collect(map);
         };
 
@@ -724,7 +729,8 @@ public class DataSetFromMysqlByPartUpdateTravelLabel_lt {
             map.put("longTengId", value.f0);
             map.put("baiYunId", "");
             map.put("updateTime", new Date());
-            map.put("travelPreference_arriveAirport", value.f1);
+            String[] array = value.f1.split(",");
+            map.put("travelPreference_arriveAirport", array);
             out.collect(map);
         };
 

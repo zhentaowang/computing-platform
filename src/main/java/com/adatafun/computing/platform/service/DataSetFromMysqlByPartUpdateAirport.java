@@ -117,7 +117,8 @@ public class DataSetFromMysqlByPartUpdateAirport {
                     map.put("longTengId", value.f0);
                     map.put("updateTime", dateUtil.setTimeZone(new Date()));
                     map.put("baiYunId", "");
-                    map.put("travelPreference_departAirport", value.f1);
+                    String[] array = value.f1.split(",");
+                    map.put("travelPreference_departAirport", array);
                     out.collect(map);
 
                 }
@@ -146,7 +147,8 @@ public class DataSetFromMysqlByPartUpdateAirport {
                     map.put("longTengId", value.f0);
                     map.put("updateTime", dateUtil.setTimeZone(new Date()));
                     map.put("baiYunId", "");
-                    map.put("travelPreference_arriveAirport", value.f1);
+                    String[] array = value.f1.split(",");
+                    map.put("travelPreference_arriveAirport", array);
                     out.collect(map);
 
                 }
